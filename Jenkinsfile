@@ -39,9 +39,9 @@ pipeline {
                                 --env-var anypoint_organisation=${params.ORGANIZATION} \
                                 --env-var source_environment=dev \
                                 --env-var target_environment=qa \
-                                --env-var asset_id=${params.ARTIFACT_ID} \
+                                --env-var asset_id=${env.ARTIFACT_ID} \
                                 --env-var product_version=${params.API_VERSION} \
-                                --env-var anypoint_runtime=${params.MULE_RUNTIME_VERSION} \
+                                --env-var anypoint_runtime=${env.MULE_RUNTIME_VERSION} \
                                 --disable-unicode \
                                 --reporters cli,json \
                                 --reporter-json-export promote-api-output.json """
