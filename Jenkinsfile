@@ -34,8 +34,8 @@ pipeline {
                 script {
                     echo "Promoting API from Development..."
                     sh """ newman run postman/Promote-API.postman_collection-v3.json \
-                                --env-var anypoint_username=$ANYPOINT_PLATFORM_CREDENTIALS_USERNAME \
-                                --env-var anypoint_password=$ANYPOINT_PLATFORM_CREDENTIALS_PASSWORD \
+                                --env-var anypoint_username=$ANYPOINT_PLATFORM_CREDENTIALS_USR \
+                                --env-var anypoint_password=$ANYPOINT_PLATFORM_CREDENTIALS_PSW \
                                 --env-var anypoint_organisation=${params.ORGANIZATION} \
                                 --env-var source_environment=dev \
                                 --env-var target_environment=qa \
