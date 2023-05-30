@@ -54,7 +54,9 @@ pipeline {
                                 --env-var asset_id=${env.ARTIFACT_ID} \
                                 --env-var product_version=${params.API_VERSION} \
                                 --env-var anypoint_runtime=${env.MULE_RUNTIME_VERSION} \
+                                --disable-unicode \
                                 --color on \
+                                --verbose \
                                 --reporters cli,json \
                                 --reporter-json-export promote-api-output.json """
                     echo "Promoted API from Testing: ${currentBuild.currentResult}"
