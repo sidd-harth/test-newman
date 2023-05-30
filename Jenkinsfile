@@ -57,8 +57,7 @@ pipeline {
                                 --env-var anypoint_runtime=${env.MULE_RUNTIME_VERSION} \
                                 --disable-unicode \
                                 --color on \
-                                -r htmlextra \
-                                --reporters cli,json \
+                                --reporters cli,json,htmlextra \
                                 --reporter-json-export promote-api-output.json """
                     echo "Promoted API from Testing: ${currentBuild.currentResult}"
                 }
@@ -66,6 +65,13 @@ pipeline {
             post {
                 success {
                     echo "...Promote API from Development Succeeded for ${env.BUILD_VERSION}: ${currentBuild.currentResult}"
+                    publishHTML (target : [allowMissing: true,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll: true,
+                                            reportDir: './newman',
+                                            reportFiles: '*.html',
+                                            reportName: 'NewMan Promote Reports',
+                                            reportTitles: 'Promote Report'])
                 } 
                 failure {
                     echo "...Promote API from Development Failed for ${env.BUILD_VERSION}: ${currentBuild.currentResult}"
