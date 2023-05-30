@@ -28,13 +28,13 @@ pipeline {
 
         stage('echo') {
             steps {
-                echo '$ANYPOINT_PLATFORM_CREDENTIALS_USR'
-                echo '$ANYPOINT_PLATFORM_CREDENTIALS_PSW'
-                echo '${params.ORGANIZATION}'
-                echo '${env.ARTIFACT_ID}'
-                echo '${params.API_VERSION}'
-                echo '${env.MULE_RUNTIME_VERSION}'
-                echo '${currentBuild.currentResult}'
+                echo "$ANYPOINT_PLATFORM_CREDENTIALS_USR"
+                echo "$ANYPOINT_PLATFORM_CREDENTIALS_PSW"
+                echo "${params.ORGANIZATION}"
+                echo "${env.ARTIFACT_ID}"
+                echo "${params.API_VERSION}"
+                echo "${env.MULE_RUNTIME_VERSION}"
+                echo "${currentBuild.currentResult}"
             }
         }
 
