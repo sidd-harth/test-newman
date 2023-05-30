@@ -26,6 +26,7 @@ pipeline {
        
     stages {
 
+/* 
         stage('echo') {
             steps {
                 echo "$ANYPOINT_PLATFORM_CREDENTIALS_USR"
@@ -70,7 +71,16 @@ pipeline {
                     echo "...Promote API from Development Failed for ${env.BUILD_VERSION}: ${currentBuild.currentResult}"
                 }
             }
-        }
+        } */
 
+
+        stage("autodiscovery") {
+            step {
+                    def autodis = readJSON file: 'promote-api-output.json'
+                    def index = autodis.environment.values.findIndexOf{ it.key == "auto_api_id" }
+                    print "Autodiscovery API ID: " + autodis.environment.values[index].value
+            }
+
+        }
     }
 }
