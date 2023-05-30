@@ -76,9 +76,11 @@ pipeline {
 
         stage('autodiscovery') {
             steps {
+                script {
                     def autodis = readJSON file: 'promote-api-output.json'
                     def index = autodis.environment.values.findIndexOf{ it.key == "auto_api_id" }
                     print "Autodiscovery API ID: " + autodis.environment.values[index].value
+                }
             }
         }
     }
