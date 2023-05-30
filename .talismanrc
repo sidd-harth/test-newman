@@ -1,6 +1,6 @@
 fileignoreconfig:
-- filename: Promote-API.postman_collection-v3.json
-  checksum: 8daae630acd5a387942ce74d51677b418adb4f14b8395b3de49764b120be5a03
+- filename: Promote-API.postman_collection-v7.json
+  checksum: 54f451969d2f1bb6665b7a042d4a6e78efc781224ffddaafd9eae80fc740c851
 - filename: Jenkinsfile
   checksum: fba3148703149b75cb00d0198debbddc1faf883fc9b6dbe95e8328ec467dd167
 version: ""
