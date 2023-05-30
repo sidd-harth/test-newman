@@ -38,7 +38,7 @@ pipeline {
             }
         }
 
-        /* stage('Promote API to Testing') {
+        stage('Promote API to Testing') {
             when {
                 expression { params.ENVIRONMENT == 'qa' }
             }
@@ -54,7 +54,7 @@ pipeline {
                                 --env-var asset_id=${env.ARTIFACT_ID} \
                                 --env-var product_version=${params.API_VERSION} \
                                 --env-var anypoint_runtime=${env.MULE_RUNTIME_VERSION} \
-                                --disable-unicode \
+                                --color on \
                                 --reporters cli,json \
                                 --reporter-json-export promote-api-output.json """
                     echo "Promoted API from Testing: ${currentBuild.currentResult}"
@@ -68,7 +68,7 @@ pipeline {
                     echo "...Promote API from Development Failed for ${env.BUILD_VERSION}: ${currentBuild.currentResult}"
                 }
             }
-        } */
+        }
 
     }
 }
