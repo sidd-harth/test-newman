@@ -26,7 +26,19 @@ pipeline {
        
     stages {
 
-        stage('Promote API to Testing') {
+        stage('echo') {
+            steps {
+                echo $ANYPOINT_PLATFORM_CREDENTIALS_USR
+                echo $ANYPOINT_PLATFORM_CREDENTIALS_PSW
+                echo ${params.ORGANIZATION}
+                echo ${env.ARTIFACT_ID}
+                echo ${params.API_VERSION}
+                echo ${env.MULE_RUNTIME_VERSION}
+                echo ${currentBuild.currentResult}
+            }
+        }
+
+        /* stage('Promote API to Testing') {
             when {
                 expression { params.ENVIRONMENT == 'qa' }
             }
@@ -56,7 +68,7 @@ pipeline {
                     echo "...Promote API from Development Failed for ${env.BUILD_VERSION}: ${currentBuild.currentResult}"
                 }
             }
-        }
+        } */
 
     }
 }
