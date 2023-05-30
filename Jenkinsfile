@@ -57,7 +57,6 @@ pipeline {
                                 --env-var anypoint_runtime=${env.MULE_RUNTIME_VERSION} \
                                 --disable-unicode \
                                 --color on \
-                                --verbose \
                                 --reporters cli,json \
                                 --reporter-json-export promote-api-output.json """
                     echo "Promoted API from Testing: ${currentBuild.currentResult}"
