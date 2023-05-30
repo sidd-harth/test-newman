@@ -26,7 +26,7 @@ pipeline {
        
     stages {
 
-/* 
+
         stage('echo') {
             steps {
                 echo "$ANYPOINT_PLATFORM_CREDENTIALS_USR"
@@ -71,15 +71,19 @@ pipeline {
                     echo "...Promote API from Development Failed for ${env.BUILD_VERSION}: ${currentBuild.currentResult}"
                 }
             }
-        } */
+        } 
 
 
         stage('autodiscovery') {
             steps {
                 script {
-                    def autodis = readJSON file: 'promote-api-output.json'
-                    def index = autodis.environment.values.findIndexOf{ it.key == "auto_api_id" }
-                    print "Autodiscovery API ID: " + autodis.environment.values[index].value
+                    def postman_envs = readJSON file: 'promote-api-output.json'
+                    def auto_discovery_id = postman_envs.environment.values.findIndexOf{ it.key == "auto_api_id" }
+                    def contract_client_id = postman_envs.environment.values.findIndexOf{ it.key == "client_id" }
+                    def contract_client_secret = postman_envs.environment.values.findIndexOf{ it.key == "client_secret" }
+                    print "Autodiscovery API ID: " + postman_envs.environment.values[auto_discovery_id].value
+                    print "Contract Client ID: " + postman_envs.environment.values[contract_client_id].value
+                    print "Contract Client Secret: " + postman_envs.environment.values[contract_client_secret].value
                 }
             }
         }
