@@ -58,6 +58,7 @@ pipeline {
                                 --disable-unicode \
                                 --color on \
                                 --reporters cli,json,htmlextra \
+                                --reporter-htmlextra-export ./newman/report.html \
                                 --reporter-json-export promote-api-output.json """
                     echo "Promoted API from Testing: ${currentBuild.currentResult}"
                 }
@@ -69,7 +70,7 @@ pipeline {
                                             alwaysLinkToLastBuild: true,
                                             keepAll: true,
                                             reportDir: './newman',
-                                            reportFiles: '*.html',
+                                            reportFiles: 'report.html',
                                             reportName: 'NewMan Promote Reports',
                                             reportTitles: 'Promote Report'])
                 } 
