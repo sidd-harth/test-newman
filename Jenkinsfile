@@ -6,6 +6,8 @@ pipeline {
     }
 
     environment {
+        POM_GROUP_ID         = sh(script: "mvn help:evaluate -Dexpression='project.groupId' -q -DforceStdout", returnStdout: true).trim()
+        POM_ARTIFACT_ID      = sh(script: "mvn help:evaluate -Dexpression='project.artifactId' -q -DforceStdout", returnStdout: true).trim()
         POM_VERSION          = sh(script: "mvn help:evaluate -Dexpression='project.version' -q -DforceStdout", returnStdout: true).trim()
         POM_MAJOR_VERSION    = sh(script: "mvn help:evaluate -Dexpression='project.version' -q -DforceStdout |  cut -d. -f1", returnStdout: true).trim()
         POM_MINOR_VERSION    = sh(script: "mvn help:evaluate -Dexpression='project.version' -q -DforceStdout |  cut -d. -f2", returnStdout: true).trim()
@@ -13,7 +15,6 @@ pipeline {
         POM_MAVEN_QUALIFIER  = sh(script: "mvn help:evaluate -Dexpression='project.version' -q -DforceStdout | cut -d- -f2", returnStdout: true).trim()
         POM_SCM_URL          = sh(script: "mvn help:evaluate -Dexpression='project.scm.url' -q -DforceStdout", returnStdout: true).trim()
         MULE_RUNTIME_VERSION = sh(script: "mvn help:evaluate -Dexpression='app.runtime' -q -DforceStdout", returnStdout: true).trim()
-        ARTIFACT_ID          = sh(script: "mvn help:evaluate -Dexpression='project.artifactId' -q -DforceStdout", returnStdout: true).trim()
         ANYPOINT_PLATFORM_CREDENTIALS = credentials('ANYPOINT_PLATFORM_CREDENTIALS')
     }
 
@@ -32,14 +33,20 @@ pipeline {
                 echo "$ANYPOINT_PLATFORM_CREDENTIALS_USR"
                 echo "$ANYPOINT_PLATFORM_CREDENTIALS_PSW"
                 echo "${params.ORGANIZATION}"
-                echo "${env.ARTIFACT_ID}"
+                echo "${env.POM_ARTIFACT_ID}"
                 echo "${params.API_VERSION}"
                 echo "${env.MULE_RUNTIME_VERSION}"
                 echo "${currentBuild.currentResult}"
             }
         }
 
-        stage('Promote API to Testing') {
+        stage('Download from Artifactory') {
+            steps {
+                sh """ mvn dependency:copy -Dartifact="${env.POM_GROUP_ID}:${env.POM_ARTIFACT_ID}:${env.POM_VERSION}:jar:mule-application" """
+            }
+        }
+
+  /*       stage('Promote API to Testing') {
             when {
                 expression { params.ENVIRONMENT == 'qa' }
             }
@@ -52,7 +59,7 @@ pipeline {
                                 --env-var anypoint_organisation=${params.ORGANIZATION} \
                                 --env-var source_environment=dev \
                                 --env-var target_environment=qa \
-                                --env-var asset_id=${env.ARTIFACT_ID} \
+                                --env-var asset_id=${env.POM_ARTIFACT_ID} \
                                 --env-var product_version=${params.API_VERSION} \
                                 --env-var anypoint_runtime=${env.MULE_RUNTIME_VERSION} \
                                 --disable-unicode \
@@ -93,6 +100,6 @@ pipeline {
                     print "Contract Client Secret: " + postman_envs.environment.values[contract_client_secret].value
                 }
             }
-        }
+        } */
     }
 }

@@ -4,18 +4,55 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.mycompany</groupId>
+	<groupId>b98cbcf7-81e7-4df8-a1e2-e6edf41ecfe4</groupId>
 	<artifactId>test-newman</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 	<name>test-newman</name>
+	<scm>
+		<url>https://github.com/sidd-harth/test-newman.git</url>
+		<connection>scm:git:https://github.com/sidd-harth/test-newman.git</connection>
+		<developerConnection>scm:git:https://github.com/sidd-harth/test-newman.git</developerConnection>
+		<tag>1.0.0</tag>
+	</scm>
 	<properties>
-	<a>1</a>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<app.runtime>4.4.0-20220824</app.runtime>
 		<mule.maven.plugin.version>3.8.0</mule.maven.plugin.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>nexus-snapshot</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<repo-id>LocalNexusRepo</repo-id>
+				<repo-name>mule-sec-ops-MIXED</repo-name>
+				<repo-url>http://localhost:8888/repository/mule-sec-ops-MIXED/</repo-url>
+			</properties>
+		</profile>
+		<profile>
+			<id>nexus-release</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<repo-id>LocalNexusRepo</repo-id>
+				<repo-name>mule-sec-ops-release</repo-name>
+				<repo-url>http://localhost:8888/repository/mule-sec-ops-release/</repo-url>
+			</properties>
+		</profile>
+		<profile>
+			<id>exchange</id>
+			<properties>
+				<repo-id>Mule-Sec-Ops</repo-id>
+				<repo-name>Exchange Private Repository</repo-name>
+				<repo-url>https://maven.anypoint.mulesoft.com/api/v3/organizations/b98cbcf7-81e7-4df8-a1e2-e6edf41ecfe4/maven</repo-url>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -70,7 +107,7 @@
 	</dependencies>
 	<repositories>
 		<repository>
-			<id>anypoint-exchange-v3</id>
+			<id>Mule-Sec-Ops</id>
 			<name>Anypoint Exchange</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
@@ -93,4 +130,11 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+	<distributionManagement>
+		<repository>
+			<id>${repo-id}</id>
+			<name>${repo-name}</name>
+			<url>${repo-url}</url>
+		</repository>
+	</distributionManagement>
 </project>
