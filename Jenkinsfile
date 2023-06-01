@@ -111,6 +111,19 @@ pipeline {
                 script {
                     def postman_envs = readJSON file: 'promote-api-output.json'
                     def auto_discovery_id = postman_envs.environment.values.findIndexOf{ it.key == "auto_api_id" }
+                    echo """ mvn --batch-mode deploy -DmuleDeploy \
+                                    -Dmule.env=qa \
+                                    -Dcloudhub.application.name=${env.POM_ARTIFACT_ID}-qa \
+                                    -Dcloudhub.environment=qa \
+                                    -Dartifact.path=target/dependency/${env.POM_ARTIFACT_ID}-${env.POM_VERSION}-mule-application.jar \
+                                    -Dcloudhub.workers=1 \
+                                    -Dcloudhub.worker.type=MICRO \
+                                    -Dcloudhub.region=us-east-2 \
+                                    -Dap.ca.client_id=$CONNECTED_APP_CLIENT_ID \
+                                    -Dap.ca.client_secret=$CONNECTED_APP_CLIENT_SECRET \
+                                    -Danypoint.platform.client.id=$QA_CLIENT_ID \
+                                    -Danypoint.platform.client.secret=$QA_CLIENT_SECRET \
+                                    -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """
                     sh """ mvn --batch-mode deploy -DmuleDeploy \
                                     -Dmule.env=qa \
                                     -Dcloudhub.application.name=${env.POM_ARTIFACT_ID}-qa \
