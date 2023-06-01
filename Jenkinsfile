@@ -111,7 +111,8 @@ pipeline {
                 script {
                     def postman_envs = readJSON file: 'promote-api-output.json'
                     def auto_discovery_id = postman_envs.environment.values.findIndexOf{ it.key == "auto_api_id" }
-                    echo """ mvn --batch-mode deploy -DmuleDeploy \
+                   
+                   /*  sh """ mvn --batch-mode deploy -DmuleDeploy \
                                     -Dmule.env=qa \
                                     -Dcloudhub.application.name=${env.POM_ARTIFACT_ID}-qa \
                                     -Dcloudhub.environment=qa \
@@ -123,20 +124,20 @@ pipeline {
                                     -Dap.ca.client_secret=$CONNECTED_APP_CLIENT_SECRET \
                                     -Danypoint.platform.client.id=$QA_CLIENT_ID \
                                     -Danypoint.platform.client.secret=$QA_CLIENT_SECRET \
-                                    -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """
+                                    -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """ */
                     sh """ mvn --batch-mode deploy -DmuleDeploy \
                                     -Dmule.env=qa \
-                                    -Dcloudhub.application.name=${env.POM_ARTIFACT_ID}-qa \
+                                    -Dcloudhub.application.name=test-newman-qa \
                                     -Dcloudhub.environment=qa \
-                                    -Dartifact.path=target/dependency/${env.POM_ARTIFACT_ID}-${env.POM_VERSION}-mule-application.jar \
+                                    -Dartifact.path=target/dependency/test-newman-1.0.0-SNAPSHOT-mule-application.jar \
                                     -Dcloudhub.workers=1 \
                                     -Dcloudhub.worker.type=MICRO \
                                     -Dcloudhub.region=us-east-2 \
-                                    -Dap.ca.client_id=$CONNECTED_APP_CLIENT_ID \
-                                    -Dap.ca.client_secret=$CONNECTED_APP_CLIENT_SECRET \
-                                    -Danypoint.platform.client.id=$QA_CLIENT_ID \
-                                    -Danypoint.platform.client.secret=$QA_CLIENT_SECRET \
-                                    -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """
+                                    -Dap.ca.client_id=029c18d8ee8d4c3d8601e6ceb34f63ba \
+                                    -Dap.ca.client_secret=593CE8AFA42F4002A19974FcC591983e \
+                                    -Danypoint.platform.client.id=006ed11f12894f1fb11919b3e72a1722 \
+                                    -Danypoint.platform.client.secret=006ed11f12894f1fb11919b3e72a1722 \
+                                    -Dapi.id=18728487  """
                 }
             }
         }
