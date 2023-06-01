@@ -112,7 +112,7 @@ pipeline {
                     def postman_envs = readJSON file: 'promote-api-output.json'
                     def auto_discovery_id = postman_envs.environment.values.findIndexOf{ it.key == "auto_api_id" }
                    
-                   /*  sh """ mvn --batch-mode deploy -DmuleDeploy \
+                    sh """ mvn --batch-mode deploy -DmuleDeploy \
                                     -Dmule.env=qa \
                                     -Dcloudhub.application.name=${env.POM_ARTIFACT_ID}-qa \
                                     -Dcloudhub.environment=qa \
@@ -124,8 +124,8 @@ pipeline {
                                     -Dap.ca.client_secret=$CONNECTED_APP_CLIENT_SECRET \
                                     -Danypoint.platform.client.id=$QA_CLIENT_ID \
                                     -Danypoint.platform.client.secret=$QA_CLIENT_SECRET \
-                                    -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """ */
-                    sh """ mvn --batch-mode deploy -DmuleDeploy \
+                                    -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """ 
+               /*      sh """ mvn --batch-mode deploy -DmuleDeploy \
                                     -Dmule.env=qa \
                                     -Dcloudhub.application.name=test-newman-qa \
                                     -Dcloudhub.environment=qa \
@@ -137,7 +137,7 @@ pipeline {
                                     -Dap.ca.client_secret=593CE8AFA42F4002A19974FcC591983e \
                                     -Danypoint.platform.client.id=006ed11f12894f1fb11919b3e72a1722 \
                                     -Danypoint.platform.client.secret=006ed11f12894f1fb11919b3e72a1722 \
-                                    -Dapi.id=18728487  """
+                                    -Dapi.id=18728487  """ */
                 }
             }
         }
