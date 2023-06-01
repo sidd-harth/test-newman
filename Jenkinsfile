@@ -16,6 +16,8 @@ pipeline {
         POM_SCM_URL          = sh(script: "mvn help:evaluate -Dexpression='project.scm.url' -q -DforceStdout", returnStdout: true).trim()
         MULE_RUNTIME_VERSION = sh(script: "mvn help:evaluate -Dexpression='app.runtime' -q -DforceStdout", returnStdout: true).trim()
         ANYPOINT_PLATFORM_CREDENTIALS = credentials('ANYPOINT_PLATFORM_CREDENTIALS')
+        QA_CLIENT_ID = credentials('QA_CLIENT_ID')
+        QA_CLIENT_SECRET = credentials('QA_CLIENT_SECRET')
     }
 
     parameters {
@@ -42,7 +44,6 @@ pipeline {
 
         stage('Download from Artifactory') {
             steps {
-                echo """ target/dependency/${env.POM_ARTIFACT_ID}-${env.POM_VERSION}-mule-application.jar """
                 sh """ mvn dependency:copy -Dartifact="${env.POM_GROUP_ID}:${env.POM_ARTIFACT_ID}:${env.POM_VERSION}:jar:mule-application" """
             }
         }
@@ -102,5 +103,27 @@ pipeline {
                 }
             }
         } */
+        
+        stage('Deploy to QA') {
+            steps {
+                script {
+                    def postman_envs = readJSON file: 'promote-api-output.json'
+                    def auto_discovery_id = postman_envs.environment.values.findIndexOf{ it.key == "auto_api_id" }
+                    sh """ mvn --batch-mode mule:deploy \
+                                    -Dmule.env=qa \
+                                    -Danypoint.username=$ANYPOINT_PLATFORM_CREDS_USR \
+                                    -Danypoint.password=$ANYPOINT_PLATFORM_CREDS_PSW \
+                                    -Dcloudhub.application.name=${pom.artifactId}-qa \
+                                    -Dcloudhub.environment=qa \
+                                    -Dartifact.path=target/dependency/${env.POM_ARTIFACT_ID}-${env.POM_VERSION}-mule-application.jar \
+                                    -Dcloudhub.workers=1 \
+                                    -Dcloudhub.worker.type=MICRO \
+                                    -Dcloudhub.region=us-east-2 \
+                                    -Danypoint.platform.client.id=$QA_CLIENT_ID \
+                                    -Danypoint.platform.client.secret=$QA_CLIENT_SECRET \
+                                    -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """
+                }
+            }
+        }
     }
 }
