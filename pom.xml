@@ -80,8 +80,9 @@
                     <cloudHubDeployment>
                         <uri>https://anypoint.mulesoft.com</uri>
                         <muleVersion>${app.runtime}</muleVersion>
-                        <username>${anypoint.username}</username>
-                        <password>${anypoint.password}</password>
+						<connectedAppClientId>${ap.ca.client_id}</connectedAppClientId>
+						<connectedAppClientSecret> ${ap.ca.client_secret}</connectedAppClientSecret>
+						<connectedAppGrantType>client_credentials</connectedAppGrantType>
                         <applicationName>${cloudhub.application.name}</applicationName>
                         <environment>${cloudhub.environment}</environment>
                         <!-- <businessGroup>${business.group.name}</businessGroup> -->

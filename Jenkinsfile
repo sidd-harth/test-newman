@@ -18,6 +18,8 @@ pipeline {
         ANYPOINT_PLATFORM_CREDENTIALS = credentials('ANYPOINT_PLATFORM_CREDENTIALS')
         QA_CLIENT_ID = credentials('QA_CLIENT_ID')
         QA_CLIENT_SECRET = credentials('QA_CLIENT_SECRET')
+        CONNECTED_APP_CLIENT_ID = credentials('CONNECTED_APP_CLIENT_ID')
+        CONNECTED_APP_CLIENT_SECRET = credentials('CONNECTED_APP_CLIENT_SECRET')
     }
 
     parameters {
@@ -117,6 +119,8 @@ pipeline {
                                     -Dcloudhub.workers=1 \
                                     -Dcloudhub.worker.type=MICRO \
                                     -Dcloudhub.region=us-east-2 \
+                                    -Dap.ca.client_id=$CONNECTED_APP_CLIENT_ID \
+                                    -Dap.ca.client_secret=$CONNECTED_APP_CLIENT_SECRET \
                                     -Danypoint.platform.client.id=$QA_CLIENT_ID \
                                     -Danypoint.platform.client.secret=$QA_CLIENT_SECRET \
                                     -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """
