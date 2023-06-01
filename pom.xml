@@ -100,6 +100,7 @@
                             <api.id>${api.id}</api.id>
                         </properties>
                     </cloudHubDeployment>
+				</configuration>	
 			</plugin>
 		</plugins>
 	</build>
