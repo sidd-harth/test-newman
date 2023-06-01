@@ -42,6 +42,7 @@ pipeline {
 
         stage('Download from Artifactory') {
             steps {
+                echo """ target/dependency/${env.POM_ARTIFACT_ID}-${env.POM_VERSION}-mule-application.jar """
                 sh """ mvn dependency:copy -Dartifact="${env.POM_GROUP_ID}:${env.POM_ARTIFACT_ID}:${env.POM_VERSION}:jar:mule-application" """
             }
         }
