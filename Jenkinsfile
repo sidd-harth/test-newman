@@ -111,7 +111,7 @@ pipeline {
                     def auto_discovery_id = postman_envs.environment.values.findIndexOf{ it.key == "auto_api_id" }
                     sh """ mvn --batch-mode mule:deploy \
                                     -Dmule.env=qa \
-                                    -Dcloudhub.application.name=${pom.artifactId}-qa \
+                                    -Dcloudhub.application.name=${env.POM_ARTIFACT_ID}-qa \
                                     -Dcloudhub.environment=qa \
                                     -Dartifact.path=target/dependency/${env.POM_ARTIFACT_ID}-${env.POM_VERSION}-mule-application.jar \
                                     -Dcloudhub.workers=1 \
