@@ -96,7 +96,7 @@
                         <properties>
                             <anypoint.platform.client_id>${anypoint.platform.client.id}</anypoint.platform.client_id>
                             <anypoint.platform.client_secret>${anypoint.platform.client.secret}</anypoint.platform.client_secret>
-                            <mule.env>${env}</mule.env>
+                            <env>${env}</env>
                             <anypoint.platform.config.analytics.agent.enabled>${enable.anypoint.monitoring}</anypoint.platform.config.analytics.agent.enabled>
                             <api.id>${api.id}</api.id>
                         </properties>
