@@ -120,8 +120,8 @@ pipeline {
                                     -Dcloudhub.workers=1 \
                                     -Dcloudhub.worker.type=MICRO \
                                     -Dcloudhub.region=us-east-2 \
-                                    -Dap.ca.client_id=029c18d8ee8d4c3d8601e6ceb34f63ba \
-                                    -Dap.ca.client_secret=593CE8AFA42F4002A19974FcC591983e \
+                                    -Dap.ca.client_id=$CONNECTED_APP_CLIENT_ID \
+                                    -Dap.ca.client_secret=$CONNECTED_APP_CLIENT_SECRET \
                                     -Danypoint.platform.client.id=$QA_CLIENT_ID \
                                     -Danypoint.platform.client.secret=$QA_CLIENT_SECRET \
                                     -Dapi.id=${postman_envs.environment.values[auto_discovery_id].value} """ 
